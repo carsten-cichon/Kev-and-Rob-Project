@@ -1,0 +1,24 @@
+{
+  "name": "csc590-keylogger-webserver-finalproject",
+  "version": "1.0.0",
+  "description": "Webserver that keylogger will send data to. Also hosts the dummy site that allows people to download the keylogger.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/KevenMcDowell/Kev-and-Rob-Project.git"
+  },
+  "author": "Keven McDowell",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/KevenMcDowell/Kev-and-Rob-Project/issues"
+  },
+  "homepage": "https://github.com/KevenMcDowell/Kev-and-Rob-Project#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "pug": "^2.0.3"
+  }
+}
