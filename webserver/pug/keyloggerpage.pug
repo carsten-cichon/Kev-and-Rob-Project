@@ -4,7 +4,20 @@ block content
         .col-12
             .row
                 .col-12
-                    form
-                        .form-group
-                            label.searchLabel Search Keystrokes
-                            input#searchKeystrokes.form-control(type="text")
+                    .row
+                        .col-4
+                        .col-4.text-center
+                            form.bg-light.rounded
+                                .form-group.rounded
+                                    label.m-1 Search Keystrokes By Computer
+                                    input#searchInput.w-50.mx-auto.my-1.form-control(type="text")
+                                    button#submitBtn.m-1.btn.btn-primary(type="button") Search
+                .col-12.text-center
+                    table#dataTable.table.bg-light
+                        thead
+                            tr
+                                th Computer
+                                th Keystrokes
+                                th Timestamp
+                        tbody
+    script(src="/js/keyloggerpage.js")

