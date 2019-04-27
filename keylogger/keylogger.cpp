@@ -1,3 +1,23 @@
+<<<<<<< HEAD
+// #include "HttpRequest.h"
+// #include "ServerRequest.h"
+#include <conio.h>
+#include <stdio.h>
+#include <iostream>
+
+int main(int argc, char **argv)
+{
+    while (true)
+    {
+        if (kbhit() != 0)
+        {
+            std::cout << getch() << std::endl;
+            std::cout << kbhit() << std::endl;
+        }
+    }
+    return 0;
+}
+=======
 #include <windows.h>
 #include <iostream>
 
@@ -29,3 +49,4 @@ int WINAPI WinMain(HINSTANCE hinstance1, HINSTANCE hinstance2, LPSTR lpstr,int c
         TranslateMessage(&msg);
         DispatchMessage(&msg);}
     return msg.wParam;}
+>>>>>>> 3a3cbeb615d961b665d027c364373f5b810c4c4a
