@@ -26,7 +26,6 @@ app.get("/getAllKeys", (req, res) => {
 });
 
 app.post("/sendkeys", (req, res) => {
-  // Placeholder for post mapping.
   try {
     const saveObj = {
       computerName: req.body.computerName,
