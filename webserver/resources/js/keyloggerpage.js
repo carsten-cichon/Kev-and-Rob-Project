@@ -1,6 +1,14 @@
+/**
+ * Author: Keven McDowell
+ * Browser script for the keylogger page that displays all the keystroke information.
+ */
+
 "use strict";
 
+// Small module I wrote inside the script.
 const windowFuncs = {
+    // Function for grabbing all of the keystroke data from the server and building a table on the page
+    // with it.
     getAllStrokes: () => {
       fetch("http://localhost:8080/getAllKeys")
         .then(resp => resp.text())
@@ -35,6 +43,7 @@ const windowFuncs = {
 
 
 (() => {
+  // Code executed when the page finishes loading the DOMContent.
   window.addEventListener(
     "DOMContentLoaded",
     e => {
@@ -42,14 +51,17 @@ const windowFuncs = {
         searchInput = document.querySelector("#searchInput"),
         dataTable = document.querySelector("#dataTable");
 
+      // Event listener to query the database on the server when clicked.
       submitButton.addEventListener("click", e => {
         e.preventDefault();
       });
 
+      // Event listener for the input that the computer name is entered into.
       searchInput.addEventListener("input", e => {
         e.preventDefault();
       });
 
+      // Populates the data on the page on load.
       windowFuncs.getAllStrokes();
     },
     false
