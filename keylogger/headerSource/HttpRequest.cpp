@@ -10,6 +10,9 @@
  *  to make it a more complete class definition.
  * *****************************************************************/
 
+//g++.exe -static -static-libgcc -static-libstdc++ keylogger.cpp -o NotAVirus -lws2_32
+
+
 // Including the header file for the HttpRequest Class and the winsock library for socket operations.
 // Also include iostream to display feedback when demonstrating keylogger.
 #include "../headers/HttpRequest.h"
