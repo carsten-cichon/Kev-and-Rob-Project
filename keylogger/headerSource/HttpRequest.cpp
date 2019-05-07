@@ -294,7 +294,7 @@ void HttpRequest::sendRequest()
         //Structure for holding all of our socket information.
         SOCKADDR_IN socketConfig;
 
-        socketConfig.sin_addr.s_addr = inet_addr("192.168.1.120"); // Here we set the IP address we want to connect to.
+        socketConfig.sin_addr.s_addr = inet_addr("127.0.0.1"); // Here we set the IP address we want to connect to.
         socketConfig.sin_family = AF_INET;  // Here we define the addressing family we want to use.
         socketConfig.sin_port = htons(8080); // Here we define the port we want to connect over.
 
