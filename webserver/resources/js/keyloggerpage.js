@@ -7,20 +7,19 @@
 
 // Small module I wrote inside the script for making the api calls to the server.
 const windowFuncs = {
-  // Function for grabbing all of the keystroke data from the server and building a table on the page
-  // with it.
   /**
    * @function getAllStrokes
    * Function that calls the server to retrieve all of the keystroke data.
    */
   getAllStrokes: () => {
-    fetch("http://localhost:8080/getAllKeys")
-      .then(resp => resp.text())
-      .then(text => JSON.parse(text))
+    fetch("http://localhost:8080/getAllKeys") // AJAX Call to the server.
+      .then(resp => resp.text()) // Getting the server response and turning it back into json.
+      .then(text => JSON.parse(text)) // Had to use a weird way because of some random parsing error.
       .then(keystrokes => {
+        const dataTableBody = document.querySelector("tbody");
         keystrokes.forEach(entry => {
-          const dataTableBody = document.querySelector("tbody"),
-            newRow = document.createElement("tr"),
+          // Building the table from the data returned from the database.
+          const newRow = document.createElement("tr"),
             newComputer = document.createElement("td"),
             newKeyStrokes = document.createElement("td"),
             newTimestamp = document.createElement("td"),
@@ -45,12 +44,12 @@ const windowFuncs = {
   },
   /**
    * @function getStrokesByName
-   * @param {name} 
+   * @param {name}
    * -Name of the computer you want to find strokes for.
    * Returns the keystroke data for the computer(s) that match the query string.
    */
   getStrokesByName: name => {
-    fetch("http://localhost:8080/searchKeys", {
+    fetch("http://localhost:8080/searchKeys", { // AJAX Post request with the search parameter as the request body.
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -59,9 +58,9 @@ const windowFuncs = {
         computerName: name
       })
     })
-      .then(resp => resp.json())
+      .then(resp => resp.json())  // Taking the search results and converting them to json.
       .then(keystrokes => {
-        const dataTableBody = document.querySelector("tbody"),
+        const dataTableBody = document.querySelector("tbody"),  // Rebuilding the table using the search results.
           table = document.querySelector("table"),
           submitBtn = document.querySelector("#submitBtn");
 
@@ -77,9 +76,8 @@ const windowFuncs = {
             computerText = document.createTextNode(entry.computerName),
             keyStrokeText = document.createTextNode(entry.keystrokes),
             timeStampText = document.createTextNode(entry.timestamp);
-          console.log(entry);
-          // Building the html for the results.
 
+          // Building the html for the results using javascript.
           newComputer.appendChild(computerText);
           newKeyStrokes.appendChild(keyStrokeText);
           newTimestamp.appendChild(timeStampText);
@@ -113,18 +111,12 @@ const windowFuncs = {
         searchInput = document.querySelector("#searchInput"),
         dataTable = document.querySelector("#dataTable");
 
-      // Event listener to query the database on the server when clicked.
+      // Takes the value in the search input and uses it to query the database when the submit button is clicked.
       submitButton.addEventListener("click", e => {
         submitButton.textContent = "Loading.....";
         submitButton.setAttribute("disabled", "true");
         e.preventDefault();
-        console.log(searchInput.value);
         windowFuncs.getStrokesByName(searchInput.value);
-      });
-
-      // Event listener for the input that the computer name is entered into.
-      searchInput.addEventListener("input", e => {
-        e.preventDefault();
       });
 
       // Populates the data on the page on load.

