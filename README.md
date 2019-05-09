@@ -38,7 +38,3 @@ To see the keylogger data go to http://localhost:8080/hiddenkeylogger
 This project also requires you to have MongoDB installed on your machine for database operations. You can download MongoDB here:  https://www.mongodb.com/download-center/community
 
 With the webserver running, and MongoDB installed and running, you should be able to run, or re-compile and run the keylogger and have it successfully send data to the server and store it in the database, which can then be viewed at http://localhost:8080/hiddenkeylogger.
-
-## Github Repository Link
-
-Github Repository: https://github.com/KevenMcDowell/Kev-and-Rob-Project/
