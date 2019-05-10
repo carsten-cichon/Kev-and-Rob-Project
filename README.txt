@@ -16,7 +16,7 @@ he made the keylogger handle storing and sending keystrokes when enter or space 
 getting the host name of the computer, he handled making sure that only numbers and letters were recorded by the 
 keylogger, and he handled the functionality for building http requests from scratch and sending them through a socket 
 to the web server along with all other extra features.  He also wrote the entire webserver and web pages, and he set 
-up the database for the server.
+up the database for the server, while also helping with describing the code in the paper.
 
 ## How to run it / How was it compiled?
 
@@ -34,22 +34,37 @@ The trojan is made specifically to work only in Windows. It was compiled using t
 This statically includes Dlls used by the program so people that don't have g++ installed on their computers can run the trojan.  It greatly increases the size of
 the keylogger, but it's necessary to make it portable between Windows machines.
 
+-lws2_32 is a compiler flag that includes Winsock2 from the Windows API in the compilation.
+
 We demonstrated the code with the console visible to give more insight into the functionality, but you can compile it to 
 hide the console at runtime using the following:
 
 -- g++ -static -static-libgcc -static-libstdc++ keylogger.cpp -o NotAVirus -lws2_32 -mwindows
 
-To run the webserver, you must have node.js installed on your machine. Then you can just navigate into the webserver directory and run "npm install".  All
-required dependencies will be installed, and once the installation finishes, you can do "npm start" and the server will start.  When you run npm install, node.js
-uses the node package manager to download all dependencies listed in the package.json file, which allows us to have portable applications
-that allow us to transport everything but the modules folder since we can download it from anywhere.
+-mwindows is a compiler flag that hides the console when the program is executed.
+
+To run the webserver, you must have node.js installed on your machine.
+
+To install node.js if you don't have it, you can go here: https://nodejs.org/en/
+
+You should only need the LTS version of node.js.
+
+Then you can just run node.js command prompt and use the command prompt to navigate into the webserver directory and run "npm install".  All required 
+dependencies will be installed, and once the installation finishes, you can do "npm start" and the server will start.  When you run npm install, node.js 
+uses the node package manager to download all dependencies listed in the package.json file, which allows us to have portable applications that allow us 
+to transport everything but the modules folder since we can download it from anywhere.
 
 To view the dummy page, go to http://localhost:8080/
 
 To see the keylogger data go to http://localhost:8080/hiddenkeylogger
 
-This project also requires you to have MongoDB installed on your machine for database operations. 
+This project also requires you to have MongoDB installed on your machine for database operations.
 You can download MongoDB here:  https://www.mongodb.com/download-center/community
+
+Make sure you install it as a network service for this project.  You should have the option of doing that and installing as a user. Install as
+a network service and not as a user.
+
+The installation should include Compass, which is the GUI handler for Mongo. Run Compass and connect to the admin DB to make sure it is up and running.
 
 With the webserver running, and MongoDB installed and running, you should be able to run, or re-compile and run the keylogger 
 and have it successfully send data to the server and store it in the database, which can then be viewed at http://localhost:8080/hiddenkeylogger.
