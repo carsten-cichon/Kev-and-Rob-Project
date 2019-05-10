@@ -1,0 +1,1 @@
+Placeholder file for keylogger. Removed keylogger so anyone wasn't downloading a virus on accident.  Compiling instructions are in the readme.

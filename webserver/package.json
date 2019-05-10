@@ -7,16 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/KevenMcDowell/Kev-and-Rob-Project.git"
-  },
   "author": "Keven McDowell",
   "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/KevenMcDowell/Kev-and-Rob-Project/issues"
-  },
-  "homepage": "https://github.com/KevenMcDowell/Kev-and-Rob-Project#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
